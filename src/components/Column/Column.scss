@@ -1,0 +1,54 @@
+@import './setting.scss';
+
+$list-bg-color: #ebecf0;
+$columns-header-height: 36px;
+$columns-footer-height: 36px;
+$columns-border-radius: 5px;
+
+
+.columns {
+    flex: 0 0 auto;
+    width: 300px;
+    height: calc(100% - #{$gap});
+    
+    &:not(:last-child){
+      margin-left: 14px;
+    }
+    > * {
+      background-color: $list-bg-color;
+      color: #333;
+      padding: 0 8px;
+    }
+    header {
+      padding-left: 15px;
+      height: $columns-header-height;
+      line-height: $columns-header-height;
+      font-size: 16px;
+      border-top-left-radius: $columns-border-radius;
+      border-top-right-radius: $columns-border-radius;
+    }
+    footer {
+      padding-left: $gap;
+      height: $columns-footer-height;
+      line-height: $columns-footer-height;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px; 
+    }
+    ul.task-list {
+      list-style-type: none;
+      margin: 0;
+      max-height: calc(100% - #{$columns-header-height} - #{$columns-footer-height});
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        -webkit-appearance: none;
+      }
+      &::-webkit-scrollbar:vertical {
+        width: 11px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: darken($list-bg-color,15);
+        border-right: 5px solid $list-bg-color;
+      }
+      
+    }
+}

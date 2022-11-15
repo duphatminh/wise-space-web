@@ -38,28 +38,28 @@ export const initialData = {
                             id: 'card-11',
                             boardID: 'board-1',
                             columnID: 'column-1',
-                            title: 'Tiltle card-1',
+                            title: 'Tiltle card-11',
                             cover: null
                         },
-                        {id: 'card-12',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-2', cover: null },
-                        {id: 'card-13',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-3', cover: null },
+                        {id: 'card-12',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-12', cover: null },
+                        {id: 'card-13',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-13', cover: null },
                     ]
                 },
                 {
                     id: 'column-3',
                     boardID: 'board-1',
                     title: 'Done column',
-                    cardOrder: ['card-14','card-15','card-116'],
+                    cardOrder: ['card-14','card-15','card-16'],
                     cards: [
                         {
                             id: 'card-14',
                             boardID: 'board-1',
                             columnID: 'column-1',
-                            title: 'Tiltle card-1',
+                            title: 'Tiltle card-14',
                             cover: null
                         },
-                        {id: 'card-15',boardID: 'board-2',columnID: 'column-1',title: 'Tiltle card-2', cover: null },
-                        {id: 'card-16',boardID: 'board-2',columnID: 'column-1',title: 'Tiltle card-3', cover: null },
+                        {id: 'card-15',boardID: 'board-2',columnID: 'column-1',title: 'Tiltle card-15', cover: null },
+                        {id: 'card-16',boardID: 'board-2',columnID: 'column-1',title: 'Tiltle card-16', cover: null },
                     ]
                 }
             ]

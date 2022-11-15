@@ -2,6 +2,7 @@ $appbar-bg-color: rgb(70, 194, 42);
 @import './setting.scss';
 
 .navbar-app {
+  height: $navbar-app-height;
     background-color: $appbar-bg-color;
     font-size: 1.5rem;
     padding-left: $gap;

@@ -2,6 +2,10 @@
 
 $gap: 10px;
 $board-bg-color: rgb(150, 227, 132);
+// Height: appbar + boardbar + boardContent = 91vh
+$navbar-app-height: 5vh;
+$navbar-board-height: 6vh;
+$board-content-height: 88vh;
 
 // Screen:
 $screen-lg: 1201px;

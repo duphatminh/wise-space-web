@@ -1,31 +1,31 @@
 @import './setting.scss';
 
 $list-bg-color: #ebecf0;
-$columns-header-height: 36px;
-$columns-footer-height: 36px;
+$columns-header-height: 46px;
+$columns-footer-height: 46px;
 $columns-border-radius: 5px;
 
+$column-height: calc(#{$board-content-height} - #{$gap * 2} );
 
 .columns {
     flex: 0 0 auto;
     width: 300px;
-    height: calc(100% - #{$gap});
+    height: $column-height;
+    margin-left: $gap;
     
-    &:not(:last-child){
-      margin-left: 14px;
-    }
     > * {
       background-color: $list-bg-color;
       color: #333;
       padding: 0 8px;
     }
-    header {
+    header.column-drag-handle {
       padding-left: 15px;
       height: $columns-header-height;
       line-height: $columns-header-height;
       font-size: 16px;
       border-top-left-radius: $columns-border-radius;
       border-top-right-radius: $columns-border-radius;
+      cursor: pointer;
     }
     footer {
       padding-left: $gap;
@@ -34,11 +34,11 @@ $columns-border-radius: 5px;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px; 
     }
-    ul.card-list {
-      list-style-type: none;
+    .card-list {
       margin: 0;
-      max-height: calc(100% - #{$columns-header-height} - #{$columns-footer-height});
+      max-height: calc(#{$column-height} - #{$columns-header-height} - #{$columns-footer-height});
       overflow-y: auto;
+
       &::-webkit-scrollbar {
         -webkit-appearance: none;
       }
@@ -49,6 +49,19 @@ $columns-border-radius: 5px;
         background-color: darken($list-bg-color,15);
         border-right: 5px solid $list-bg-color;
       }
+      .card-ghost {
+        transition: transform 0.18s ease;
+        transform: rotateZ(5deg)
+      }
       
+      .card-ghost-drop{
+        transition: transform 0.18s ease-in-out;
+        transform: rotateZ(0deg)
+      }
+      .card-drop-preview {
+        background-color: rgba(150, 150, 200, 0.1);
+        border: 1px dashed #abc;
+        margin: 5px;
+      }
     }
 }

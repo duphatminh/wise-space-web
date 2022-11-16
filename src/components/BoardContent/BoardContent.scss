@@ -7,6 +7,10 @@
     // margin: 0 $gap $gap;
     overflow-x: auto;
     overflow-y: hidden;
+    &:after {
+      content: '';
+      flex: 0 0 $gap;
+    }
     
     &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -26,17 +30,40 @@
 
     .add-new-column {
       width: 250px;
-      height: 32px;
+      max-width: 250px;
       line-height: 32px;
       padding: 4px 0 4px 15px;
       cursor: pointer;
       color: rgb(255, 255, 255);
       margin-left: $gap;
       font-size: 15px;
-      background-color: hsla(0,0%,100%,.24);
+      background-color: hsla(0,0%,100%,.20);
       border-radius: $columns-border-radius;
       &:hover {
-        background-color: hsla(0,0%,100%,.34);
+      background-color: hsla(0,0%,100%,.30);
       }
     }
+    .enter-new-column {
+      width: 250px;
+      max-width: 250px;
+      background-color: $column-bg-color;
+      padding: 4px 10px;
+      margin-left: $gap;
+      border-radius: $columns-border-radius;
+      .input-enter-new-column {
+        margin: 5px 0;
+      }
+      span.cancel-new-column {
+        margin-left: $gap;
+        cursor: pointer;
+        i {
+          font-size: 18px;
+          color: $alert-danger;
+          &:hover {
+            color: darken($alert-danger, 10);
+          }
+        }
+      }
+    }
+    
 }

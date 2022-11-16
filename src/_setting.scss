@@ -1,11 +1,15 @@
 @import url('http://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600');
 
 $gap: 10px;
-$board-bg-color: rgb(150, 227, 132);
-// Height: appbar + boardbar + boardContent = 91vh
+
+// Height: appbar + boardbar + boardContent = 99vh, 1vh for crollbar
 $navbar-app-height: 5vh;
 $navbar-board-height: 6vh;
 $board-content-height: 88vh;
+
+//color: 
+$board-bg-color: rgb(105, 168, 91);
+$app-main-text-color: #333;
 
 // Screen:
 $screen-lg: 1201px;
@@ -13,3 +17,5 @@ $screen-md: 992px;
 $screen-sm: 768px;
 $screen-lg: 480px;
 $screen-ip6-down: '{max-width: 375px}';
+
+$columns-border-radius: 5px;

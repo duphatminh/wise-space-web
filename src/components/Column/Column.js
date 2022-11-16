@@ -48,7 +48,7 @@ function Column(props) {
       </div>
       <footer>
         <div className="footer-actions">
-          <i className="fa fa-plus icon"/>Add another Card
+          <i className="fa fa-plus icon"/> Thêm thẻ khác
         </div>
       </footer>
     </div>

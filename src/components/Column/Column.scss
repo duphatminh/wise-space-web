@@ -6,26 +6,66 @@ $columns-footer-height: 46px;
 
 $column-height: calc(#{$board-content-height} - #{$gap * 2} );
 
-.columns {
+.column {
     flex: 0 0 auto;
     width: 300px;
     height: $column-height;
     margin-left: $gap;
-    
-    
     > * {
       background-color: $column-bg-color;
       padding: 0 8px;
     }
     header.column-drag-handle {
       font-weight: bold;
-      padding-left: 15px;
+      padding: 5px 8px;
       height: $columns-header-height;
       line-height: $columns-header-height;
       font-size: 16px;
       border-top-left-radius: $columns-border-radius;
       border-top-right-radius: $columns-border-radius;
       cursor: pointer;
+      display: flex;
+      .column-title {
+        flex: 90%;
+      }
+      .column-dropdown-actions {
+        flex: 10%;
+        .dropdown {
+          button.dropdown-btn {
+            padding: 0 $gap;
+            font-size: 17px;
+            height: 32px;
+            margin-top: -15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background-color: $column-bg-color;
+            border-color: $column-bg-color;
+            color: $app-main-text-color;
+            &:after {
+              content: '...';
+              border: none;
+              vertical-align: 1.255em;
+            }
+            &:hover {
+              background-color: darken($column-bg-color, 10);
+              border-color: darken($column-bg-color, 10);
+            }
+          }
+        }
+        .dropdown-menu {
+          padding: 0;
+          min-width: 200px;
+          a.dropdown-item {
+            padding: 0.1rem 1rem;
+            font-size: 15px;
+            font-weight: bold;
+            &:not(:last-child) {
+              border-bottom: 1px solid darken($column-bg-color, 10);
+            }
+          }
+        }
+      }
+      
     }
     footer {
       padding-left: $gap;

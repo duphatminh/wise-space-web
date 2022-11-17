@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { mapOrder } from 'utilities/sorts'
-import { MODAL_ACTION_CLOSE, MODAL_ACTION_CONFIRM } from 'utilities/constants'
-import { Dropdown, Form } from 'react-bootstrap'
+import { MODAL_ACTION_CONFIRM } from 'utilities/constants'
+import { Dropdown, Form, Button } from 'react-bootstrap'
 import { SelectAllInlineText, saveContentAfterPressEnter} from 'utilities/contentEditable'
+import { cloneDeep } from 'lodash'
 
 import './Column.scss'
 import Card from 'components/Card/Card'
@@ -17,11 +18,26 @@ function Column(props) {
   const toggleShowConfirmModal = () => setshowConfirmModal(!showConfirmModal)
   
   const [columnTitle, setColumnTitle] = useState('')
-  const handleColumnTitleChange = useCallback((e) => setColumnTitle(e.target.value), [])
+  const handleColumnTitleChange = (e) => setColumnTitle(e.target.value)
+
+  const [openNewCardForm, setOpenNewCardForm] = useState(false)
+  const toggleOpenNewCardFrom = () => setOpenNewCardForm(!openNewCardForm)
+
+  const newCardTextareaRef = useRef(null)
+
+  const [newCardTitle, setNewCardTitle] = useState('')
+  const onNewCardTitleChange = (e) => setNewCardTitle(e.target.value)
 
   useEffect(() => {
     setColumnTitle(column.title)
   }, [column.title])
+
+  useEffect(() => {
+    if (newCardTextareaRef && newCardTextareaRef.current) {
+      newCardTextareaRef.current.focus()
+      newCardTextareaRef.current.select()
+    }
+    }, [openNewCardForm])
 
   const onConfirmModalAction = (type) => {
     if (type === MODAL_ACTION_CONFIRM) {
@@ -34,8 +50,6 @@ function Column(props) {
     }
     toggleShowConfirmModal()
   }
-  
-
   const handleColumnTitleBlur = () => {
     const newColumn = {
       ...column,
@@ -43,12 +57,29 @@ function Column(props) {
     }
     onUpdateColumn(newColumn)
   }
+  const addNewCard = () => {
+    if (!newCardTitle) {
+      newCardTextareaRef.current.focus()
+      return
+    }
 
-  
+    const newCardToAdd = {
+      id: Math.random().toString(36).substring(2, 5), //Random 1 string có 5 ký tự và ngẫu nhiên, sẽ xóa khi thực hiện code API
+      boardId: column.boardId,
+      columnId: column.id,
+      title: newCardTitle.trim(),
+      cover: null
+    }
+    let newColumn = cloneDeep(column)
+    newColumn.cards.push(newCardToAdd)
+    newColumn.cardOrder.push(newCardToAdd.id)
 
+    onUpdateColumn(newColumn)
+    setNewCardTitle('')
+    toggleOpenNewCardFrom()
+  }
   return (
     <div className="column">
-      
       <header className="column-drag-handle">
         <div className="column-title">
           <Form.Control 
@@ -99,13 +130,37 @@ function Column(props) {
               <Card  card={card}/>
             </Draggable>
           ))}
-          
         </Container>
+        {openNewCardForm &&
+          <div className="add-new-card-area">
+            <Form.Control 
+              size="sm" 
+              as="textarea" 
+              rows="3"
+              placeholder="Nhập tiêu đề cho thẻ..."
+              className="textarea-enter-new-card"
+              ref={newCardTextareaRef}
+              value={newCardTitle}
+              onChange={onNewCardTitleChange}
+              onKeyDown={event => (event.key === 'Enter') && addNewCard()}
+            />
+          </div>
+        }
       </div>
       <footer>
-        <div className="footer-actions">
-          <i className="fa fa-plus icon"/> Thêm thẻ khác
-        </div>
+        {openNewCardForm &&
+          <div className="add-new-card-actions">
+            <Button variant="success" size="sm" onClick={addNewCard}>Thêm thẻ</Button>
+            <span className="cancel-icon" onClick={toggleOpenNewCardFrom}>
+              <i className="fa fa-trash icon"/>
+            </span>
+          </div>
+        }
+        {!openNewCardForm && 
+          <div className="footer-actions" onClick={toggleOpenNewCardFrom}>
+            <i className="fa fa-plus icon"/> Thêm thẻ khác
+          </div>
+        }
       </footer>
 
       <ConfirmModal

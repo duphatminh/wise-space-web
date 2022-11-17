@@ -100,7 +100,7 @@ function Column(props) {
             <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm" className="dropdown-btn"/>
 
           <Dropdown.Menu>
-            <Dropdown.Item>Thêm thẻ...</Dropdown.Item>
+            <Dropdown.Item onClick={toggleOpenNewCardFrom}>Thêm thẻ...</Dropdown.Item>
             <Dropdown.Item onClick={toggleShowConfirmModal}>Xóa cột...</Dropdown.Item>
             <Dropdown.Item>Di chuyển tất cả thẻ trong cột (Coming soon)...</Dropdown.Item>
             <Dropdown.Item>Lưu trữ tất cả thẻ trong cột (Coming soon)...</Dropdown.Item>

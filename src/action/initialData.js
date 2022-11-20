@@ -1,4 +1,3 @@
-
 // Data mẫu
 export const initialData = {
     boards: [

@@ -7,7 +7,7 @@ import './BoardContent.scss'
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { applyDrag } from 'utilities/dragDrop'
-import { fetchBoardDetails } from 'action/ApiCall'
+import { fetchBoardDetails,createNewColumn } from 'action/ApiCall'
 
 function BoardContent() {
     const [board, setBoard]=useState({})
@@ -21,9 +21,9 @@ function BoardContent() {
     const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value)
 
     useEffect(() => {
-        const boardId = '6379260a4540c34ba48f08b0'
+        const boardId = '637910b8b2cac673bcd9c549'
         fetchBoardDetails(boardId).then(board => {
-            console.log(board)
+            // console.log(board)
             setBoard(board)
             setColumns(mapOrder(board.columns, board.columnOrder, '_id'))
         })
@@ -66,26 +66,25 @@ function BoardContent() {
             return
         }
         const newColumnToAdd = {
-            id: Math.random().toString(36).substring(2, 5), //Random 1 string có 5 ký tự và ngẫu nhiên, sẽ xóa khi thực hiện code API
             boardId: board._id,
-            title: newColumnTitle.trim(),
-            cardOrder: [],
-            cards: []
+            title: newColumnTitle.trim()
         }
-        let newColumns = [...columns]
-        newColumns.push(newColumnToAdd)
+        //Call API 
+        createNewColumn(newColumnToAdd).then(column => {
+            let newColumns = [...columns]
+            newColumns.push(column)
 
-        let newBoard = {...board}
-        newBoard.columnOrder = newColumns.map(c => c._id)
-        newBoard.columns = newColumns
+            let newBoard = {...board}
+            newBoard.columnOrder = newColumns.map(c => c._id)
+            newBoard.columns = newColumns
         
-        setColumns(newColumns)
-        setBoard(newBoard)
-        setNewColumnTitle('')
-        toggleOpenNewColumnFrom()
+            setColumns(newColumns)
+            setBoard(newBoard)
+            setNewColumnTitle('')
+            toggleOpenNewColumnFrom()
+        })
     }
-
-    const onUpdateColumn = (newColumnToUpdate) => {
+    const onUpdateColumnState = (newColumnToUpdate) => {
         const columnIdToUpdate = newColumnToUpdate._id
 
         let newColumns = [...columns]
@@ -124,7 +123,7 @@ function BoardContent() {
                         <Column  
                             column={column} 
                             onCardDrop={onCardDrop} 
-                            onUpdateColumn={onUpdateColumn}
+                            onUpdateColumnState={onUpdateColumnState}
                         />
                     </Draggable>
                 ))}
@@ -133,7 +132,7 @@ function BoardContent() {
                 {!openNewColumnForm &&
                     <Row>
                         <Col className="add-new-column" onClick={toggleOpenNewColumnFrom}>
-                            <i className="fa fa-plus icon"/>Thêm cột mới
+                            <i className="fa fa-plus icon"/>   Thêm cột mới
                         </Col>
                     </Row>
                 }

@@ -9,9 +9,10 @@ import { cloneDeep } from 'lodash'
 import './Column.scss'
 import Card from 'components/Card/Card'
 import ConfirmModal from 'components/Common/ConfirmModal.'
+import { createNewCard,updateColumn } from 'action/ApiCall'
 
 function Column(props) {
-  const { column, onCardDrop, onUpdateColumn } = props
+  const { column, onCardDrop, onUpdateColumnState } = props
   const cards = mapOrder(column.cards, column.cardOrder, '_id')
 
   const [showConfirmModal, setshowConfirmModal] = useState(false)
@@ -38,7 +39,7 @@ function Column(props) {
       newCardTextareaRef.current.select()
     }
     }, [openNewCardForm])
-
+  //Remove column
   const onConfirmModalAction = (type) => {
     if (type === MODAL_ACTION_CONFIRM) {
       // Xóa cột 
@@ -46,37 +47,47 @@ function Column(props) {
         ...column,
         _destroy: true
       }
-      onUpdateColumn(newColumn)
+      //Call API update column
+      updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+        onUpdateColumnState(updatedColumn)
+      })
     }
     toggleShowConfirmModal()
   }
+  //Update column title
   const handleColumnTitleBlur = () => {
-    const newColumn = {
-      ...column,
-      title: columnTitle
+    if (columnTitle !== column.title) {
+      const newColumn = {
+        ...column,
+        title: columnTitle
+      }
+      //Call API update column
+      updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+      updatedColumn.cards = newColumn.cards
+      onUpdateColumnState(updatedColumn)
+      })
     }
-    onUpdateColumn(newColumn)
   }
   const addNewCard = () => {
     if (!newCardTitle) {
       newCardTextareaRef.current.focus()
       return
     }
-
     const newCardToAdd = {
-      id: Math.random().toString(36).substring(2, 5), //Random 1 string có 5 ký tự và ngẫu nhiên, sẽ xóa khi thực hiện code API
       boardId: column.boardId,
       columnId: column._id,
-      title: newCardTitle.trim(),
-      cover: null
+      title: newCardTitle.trim()
     }
-    let newColumn = cloneDeep(column)
-    newColumn.cards.push(newCardToAdd)
-    newColumn.cardOrder.push(newCardToAdd._id)
+    //Call API 
+    createNewCard(newCardToAdd).then(card => {
+      let newColumn = cloneDeep(column)
+      newColumn.cards.push(card)
+      newColumn.cardOrder.push(card._id)
 
-    onUpdateColumn(newColumn)
-    setNewCardTitle('')
-    toggleOpenNewCardFrom()
+      onUpdateColumnState(newColumn)
+      setNewCardTitle('')
+      toggleOpenNewCardFrom()
+    })
   }
   return (
     <div className="column">
@@ -167,7 +178,7 @@ function Column(props) {
         show = {showConfirmModal}
         onAction = {onConfirmModalAction}
         title = "Xóa cột"
-        content = {'Bạn có chắc chắn xóa ${column.title} không? Tất cả thẻ liên quan sẽ bị xóa!'}
+        content = {`Bạn có chắc chắn xóa <strong>${column.title}</strong> không? Tất cả thẻ liên quan sẽ bị xóa!`}
       />
     </div>
   )

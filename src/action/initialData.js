@@ -1,3 +1,5 @@
+
+// Data mẫu
 export const initialData = {
     boards: [
         {
@@ -7,7 +9,7 @@ export const initialData = {
                 {
                     id: 'column-1',
                     boardID: 'board-1',
-                    title: 'To do column',
+                    title: 'Cần làm',
                     cardOrder: ['card-1','card-2','card-3','card-4','card-5','card-6','card-7','card-8','card-9','card-10'],
                     cards: [
                         {
@@ -18,20 +20,20 @@ export const initialData = {
                             cover: 'https://thidaihoc.vn/wp-content/uploads/2022/03/vanlang-online-truong-dai-hoc-van-lang.jpg'
                         },
                         {id: 'card-2',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-2', cover: null },
-                        {id: 'card-3',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-3', cover: null },
-                        {id: 'card-4',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-4', cover: null },
-                        {id: 'card-5',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-5', cover: null },
-                        {id: 'card-6',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-6', cover: null },
-                        {id: 'card-7',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-7', cover: null },
-                        {id: 'card-8',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-8', cover: null },
-                        {id: 'card-9',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-9', cover: null },
-                        {id: 'card-10',boardID:'board-1',columnID: 'column-1',title: 'Tiltle card-10', cover: null },
+                        {id: 'card-3',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-3', cover: null }
+                        // {id: 'card-4',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-4', cover: null },
+                        // {id: 'card-5',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-5', cover: null },
+                        // {id: 'card-6',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-6', cover: null },
+                        // {id: 'card-7',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-7', cover: null },
+                        // {id: 'card-8',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-8', cover: null },
+                        // {id: 'card-9',boardID: 'board-1',columnID: 'column-1',title: 'Tiltle card-9', cover: null },
+                        // {id: 'card-10',boardID:'board-1',columnID: 'column-1',title: 'Tiltle card-10', cover: null },
                     ]
                 },
                 {
                     id: 'column-2',
                     boardID: 'board-1',
-                    title: 'Ingrogress column',
+                    title: 'Đang làm',
                     cardOrder: ['card-11','card-12','card-13'],
                     cards: [
                         {
@@ -48,7 +50,7 @@ export const initialData = {
                 {
                     id: 'column-3',
                     boardID: 'board-1',
-                    title: 'Done column',
+                    title: 'Đã làm',
                     cardOrder: ['card-14','card-15','card-16'],
                     cards: [
                         {

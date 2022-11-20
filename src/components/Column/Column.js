@@ -12,7 +12,7 @@ import ConfirmModal from 'components/Common/ConfirmModal.'
 
 function Column(props) {
   const { column, onCardDrop, onUpdateColumn } = props
-  const cards = mapOrder(column.cards, column.cardOrder, 'id')
+  const cards = mapOrder(column.cards, column.cardOrder, '_id')
 
   const [showConfirmModal, setshowConfirmModal] = useState(false)
   const toggleShowConfirmModal = () => setshowConfirmModal(!showConfirmModal)
@@ -66,13 +66,13 @@ function Column(props) {
     const newCardToAdd = {
       id: Math.random().toString(36).substring(2, 5), //Random 1 string có 5 ký tự và ngẫu nhiên, sẽ xóa khi thực hiện code API
       boardId: column.boardId,
-      columnId: column.id,
+      columnId: column._id,
       title: newCardTitle.trim(),
       cover: null
     }
     let newColumn = cloneDeep(column)
     newColumn.cards.push(newCardToAdd)
-    newColumn.cardOrder.push(newCardToAdd.id)
+    newColumn.cardOrder.push(newCardToAdd._id)
 
     onUpdateColumn(newColumn)
     setNewCardTitle('')
@@ -113,7 +113,7 @@ function Column(props) {
         <Container
           groupName="col"
           orientation="vertical"
-          onDrop={dropResult => onCardDrop(column.id, dropResult)}
+          onDrop={dropResult => onCardDrop(column._id, dropResult)}
           getChildPayload={index => cards[index]}
           dragClass="card-ghost"
           dropClass="card-ghost-drop"

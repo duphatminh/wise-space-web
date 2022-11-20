@@ -7,7 +7,7 @@ import './BoardContent.scss'
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { applyDrag } from 'utilities/dragDrop'
-import { initialData } from 'action/initialData'
+import { fetchBoardDetails } from 'action/ApiCall'
 
 function BoardContent() {
     const [board, setBoard]=useState({})
@@ -21,16 +21,12 @@ function BoardContent() {
     const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value)
 
     useEffect(() => {
-        const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
-        if (boardFromDB) {
-            setBoard(boardFromDB)
-
-            //Sắp xếp lại column (sort column )
-            // boardFromDB.columns.sort(function(a,b) {
-            //     return boardFromDB.columnOrder.indexOf(a.id) - boardFromDB.columnOrder.indexOf(b.id)
-            // })
-            setColumns(mapOrder(boardFromDB.columns, boardFromDB.columnOrder, 'id'))
-        }
+        const boardId = '6379260a4540c34ba48f08b0'
+        fetchBoardDetails(boardId).then(board => {
+            console.log(board)
+            setBoard(board)
+            setColumns(mapOrder(board.columns, board.columnOrder, '_id'))
+        })
     }, [])
 
     useEffect(() => {
@@ -48,7 +44,7 @@ function BoardContent() {
         newColumns = applyDrag(newColumns, dropResult)
 
         let newBoard = {...board}
-        newBoard.columnOrder = newColumns.map(c => c.id)
+        newBoard.columnOrder = newColumns.map(c => c._id)
         newBoard.columns = newColumns
 
         setColumns(newColumns)
@@ -57,9 +53,9 @@ function BoardContent() {
     const onCardDrop = (columnId, dropResult) => {
         if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
             let newColumns = [...columns]
-            let currentColumn = newColumns.find(c => c.id === columnId)
+            let currentColumn = newColumns.find(c => c._id === columnId)
             currentColumn.cards = applyDrag(currentColumn.cards, dropResult)
-            currentColumn.cardOrder =currentColumn.cards.map(i => i.id)
+            currentColumn.cardOrder =currentColumn.cards.map(i => i._id)
             console.log(newColumns)
             setColumns(newColumns)
         }
@@ -71,7 +67,7 @@ function BoardContent() {
         }
         const newColumnToAdd = {
             id: Math.random().toString(36).substring(2, 5), //Random 1 string có 5 ký tự và ngẫu nhiên, sẽ xóa khi thực hiện code API
-            boardId: board.id,
+            boardId: board._id,
             title: newColumnTitle.trim(),
             cardOrder: [],
             cards: []
@@ -80,7 +76,7 @@ function BoardContent() {
         newColumns.push(newColumnToAdd)
 
         let newBoard = {...board}
-        newBoard.columnOrder = newColumns.map(c => c.id)
+        newBoard.columnOrder = newColumns.map(c => c._id)
         newBoard.columns = newColumns
         
         setColumns(newColumns)
@@ -90,10 +86,10 @@ function BoardContent() {
     }
 
     const onUpdateColumn = (newColumnToUpdate) => {
-        const columnIdToUpdate = newColumnToUpdate.id
+        const columnIdToUpdate = newColumnToUpdate._id
 
         let newColumns = [...columns]
-        const columnIndexToUpdate = newColumns.findIndex(i => i.id === columnIdToUpdate)
+        const columnIndexToUpdate = newColumns.findIndex(i => i._id === columnIdToUpdate)
 
         if (newColumnToUpdate._destroy) {
             // Xóa cột
@@ -104,7 +100,7 @@ function BoardContent() {
             newColumns.splice(columnIndexToUpdate, 1, newColumnToUpdate)
         }
         let newBoard = {...board}
-        newBoard.columnOrder = newColumns.map(c => c.id)
+        newBoard.columnOrder = newColumns.map(c => c._id)
         newBoard.columns = newColumns
         
         setColumns(newColumns)

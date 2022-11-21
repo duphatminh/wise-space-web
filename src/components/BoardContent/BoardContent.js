@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { Container as BootstrapContainer, Row, Col, Form, Button} from 'react-bootstrap'
-import { isEmpty } from 'lodash'
+import { isEmpty,cloneDeep } from 'lodash'
 
 import './BoardContent.scss'
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { applyDrag } from 'utilities/dragDrop'
-import { fetchBoardDetails,createNewColumn } from 'action/ApiCall'
+import { fetchBoardDetails,createNewColumn, updateBoard,updateColumn,updateCard } from 'action/ApiCall'
 
 function BoardContent() {
     const [board, setBoard]=useState({})
@@ -40,24 +40,52 @@ function BoardContent() {
         return <div className="not-found" style={{ 'padding': '10px', 'color': 'brown' }}>Board not found</div>
     }
     const onColumnDrop = (dropResult) => {
-        let newColumns = [...columns]
+        let newColumns = cloneDeep(columns)
         newColumns = applyDrag(newColumns, dropResult)
 
-        let newBoard = {...board}
+        let newBoard = cloneDeep(board)
         newBoard.columnOrder = newColumns.map(c => c._id)
         newBoard.columns = newColumns
 
         setColumns(newColumns)
         setBoard(newBoard)
+        //Call API update columnOrder in board details.
+        updateBoard(newBoard._id, newBoard).catch(() => {
+            setColumns(columns)
+            setBoard(board)
+        })
     }
     const onCardDrop = (columnId, dropResult) => {
         if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
             let newColumns = [...columns]
+
             let currentColumn = newColumns.find(c => c._id === columnId)
             currentColumn.cards = applyDrag(currentColumn.cards, dropResult)
-            currentColumn.cardOrder =currentColumn.cards.map(i => i._id)
-            console.log(newColumns)
+            currentColumn.cardOrder = currentColumn.cards.map(i => i._id)
+
             setColumns(newColumns)
+            if (dropResult.removedIndex !== null && dropResult.addedIndex !== null) {
+                // console.log('1')
+                /**
+                 * Action: move card inside its column 
+                 * + Call API update cardOrder in current column
+                 */
+                updateColumn(currentColumn._id, currentColumn).catch(() => setColumns(columns)) 
+            } else {
+                // console.log('2')
+                /**
+                * Action: move card between two columns
+                */
+                //+ Call API update cardOrder in current column
+                updateColumn(currentColumn._id, currentColumn).catch(() => setColumns(columns))
+                if (dropResult.addedIndex !== null) {
+                    let currentCard = cloneDeep(dropResult.payload)
+                    currentCard.columnId = currentColumn._id
+                    //+ Call API update columnId in current card:
+                    // console.log(currentCard)
+                    updateCard(currentCard._id, currentCard)
+                }
+            }
         }
     }
     const addNewColumn = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 
-import Appbar from 'components/AppBar/AppBar';
+import AppBar from 'components/AppBar/AppBar';
 import BoardBar from 'components/BoardBar/BoardBar';
 import BoardContent from 'components/BoardContent/BoardContent';
 
@@ -9,7 +9,7 @@ import BoardContent from 'components/BoardContent/BoardContent';
 function App() {
   return (
     <div className="wise-space-master">
-      <Appbar/>
+      <AppBar/>
       <BoardBar/>
       <BoardContent/>
     </div>

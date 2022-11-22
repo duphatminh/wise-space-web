@@ -15,15 +15,16 @@ $appbar-bg-color: rgb(41, 112, 25);
     .app-actions {
       display: inline-flex;
       
-      height: 10  0%;
+      height: 90%;
       width: 100%;
       flex-direction: row;
       align-items: center;
       div.item {
-        font-size: 25px;
+        font-size: 20px;
         padding: 6px 10px;
         background-color: rgba(255, 255, 255, 0.3);
         border-radius: 3px;
+        display: flex;
         &:not(:first-child) {
           margin-left: 5px;
         }
@@ -94,12 +95,12 @@ $appbar-bg-color: rgb(41, 112, 25);
     align-items: center;
     justify-content: flex-end;
     div.item {
-      font-size: 25px;
-      padding: 9px 8px 9px 9px;
+      font-size: 20px;
+      padding: 9px 8px 9px 8.5px;
       background-color: rgba(255, 255, 255, 0.3);
       border-radius: 3px;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       &:not(:first-child) {
         margin-left: 4px;
       }
@@ -110,14 +111,13 @@ $appbar-bg-color: rgb(41, 112, 25);
       img {
         width: auto;
         height: 40px;
-        margin: -10px;
+        margin: -11px -10px 10px -12px;
         border-radius: 50px;
         object-fit: cover;
         &:hover {
           filter: brightness(120%);
         }
       }
-
     }
   }
   

@@ -2,9 +2,56 @@
 
 .navbar-board {
     height: $navbar-board-height;
-    background-color: $board-bg-color;
-    font-size: 1.1rem;
-    padding-left: $gap;
+    padding: 0 ($gap * 1.5);
     display: flex;
     align-items: center;
+    background-color: $board-bg-color;
+    color: aliceblue;
+    .wise-space-container {
+        max-width: 100%;
+        .board-info {
+            display: inline-flex;
+            height: 100%;
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            div.divider {
+                margin: 0 10px;
+                padding: 0;
+                &::before {
+                    content: '|';
+                    color: hsla(0, 0%, 100%, .24);
+                }
+            }
+            div.item {
+                padding: 6px 10px;
+                background-color: rgba(255, 255, 255, 0.3);
+                border-radius: 3px;
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+            }
+        }
+        .board-actions {
+            display: inline-flex;
+            height: 100%;
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            div.item {
+                padding: 6px 10px;
+                background-color: rgba(255, 255, 255, 0.3);
+                border-radius: 3px;
+                &:not(:first-child) {
+                    margin-left: 4px;
+                }
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+            }
+        }
+    }
 }
